@@ -8,8 +8,8 @@ export default function Home() {
       <h1 className="text-4xl font-bold backdrop-blur-xl px-5 py-3 border-2 border-white/10 backdrop-brightness-75 text-white bg-black/20 rounded-3xl ">欢迎来到 Yellowsea 动画学习</h1>
       <section>
         <ol className="grid grid-cols-1 gap-4">
-          <li className="relative z-20 w-[clamp(380px,50vw,550px)] p-5 border text-xl bg-white/30 backdrop-brightness-90 backdrop-blur-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-zinc-50 to-zinc-200/20  border-white/10 shadow-md rounded-xl flex items-center justify-between">
-            <Link href="/framer-motion" className="absolute inset-0" />
+          <motion.li whileHover={{ y: -5, scale: 1.025 }} className="relative z-20 w-[clamp(380px,50vw,550px)] p-5 border text-xl bg-white/30 backdrop-brightness-90 backdrop-blur-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-zinc-50 to-zinc-200/20  border-white/10 shadow-md rounded-xl flex items-center justify-between">
+            <Link href="/lessons/1" className="absolute inset-0" />
             <span>#1 - 通知动画</span>
             <span className="text-white">
               <svg
@@ -28,7 +28,7 @@ export default function Home() {
                 />
               </svg>
             </span>
-          </li>
+          </motion.li>
         </ol>
       </section>
 
