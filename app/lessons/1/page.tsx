@@ -18,7 +18,7 @@ const messagesDb = [
 
 
 function randomMessage() {
-  return messagesDb[Math.floor(Math.random() * messagesDb.push.length)]
+  return messagesDb[Math.floor(Math.random() * messagesDb.length)]
 }
 
 
@@ -33,27 +33,41 @@ export default function LessonOnePage() {
     <div className='fixed inset-0'>
       <div className='absolute top-0 right-0 inset-y-0 pr-4 pt-4'>
         <ul className='grid grid-cols-1 gap-4'>
-          {notifications.map(([idx, message]) => (
-            <li
-              key={idx}
-              className='relative z-20 w-64 p-5 text-base bg-white/10 backdrop-brightness-90 backdrop-blur-lg border font-medium text-transparent bg-clip-text bg-gradient-to-br from-zinc-50 to-zinc-200/20 border-white/10 shadow-md rounded-xl'
-            >
-              <button
-                type='button'
-                aria-label='关闭通知'
-                className='absolute -left-4 -top-2 text-xs text-white/80 bg-black/10 rounded-full px-1.5 py-0.5 border border-white/10 z-50'
-                onClick={() => {
-                  setNotifications((perv) => perv.filter(([index]) => index !== idx))
+          <AnimatePresence initial={false}>
+            {notifications.map(([idx, message]) => (
+              <motion.li
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{
+                  opacity: 0,
+                  y: 20,
+                  scale: 0.95,
+                  transition: { duration: 0.1 },
                 }}
-              >关闭</button>
-              <p>{message}</p>
-            </li>
-          ))}
+                key={idx}
+                className='relative z-20 w-64 p-5 text-base bg-white/10 backdrop-brightness-90 backdrop-blur-lg border font-medium text-transparent bg-clip-text bg-gradient-to-br from-zinc-50 to-zinc-200/20 border-white/10 shadow-md rounded-xl'
+              >
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  whileHover={{ scale: 1.05 }}
+                  type='button'
+                  aria-label='关闭通知'
+                  className='absolute -left-4 -top-2 text-xs text-white/80 bg-black/10 rounded-full px-1.5 py-0.5 border border-white/10 z-50'
+                  onClick={() => {
+                    setNotifications((perv) => perv.filter(([index]) => index !== idx))
+                  }}
+                >关闭</motion.button>
+                <p>{message}</p>
+              </motion.li>
+            ))}
+          </AnimatePresence>
         </ul>
       </div>
 
       <div className='absolute inset-0 flex items-center justify-center'>
-        <button
+        <motion.button
+          whileTap={{ scale: 0.96 }}
+          whileHover={{ scale: 1.05 }}
           onClick={() => {
             setNotifications((prev) => [
               ...prev,
@@ -61,8 +75,10 @@ export default function LessonOnePage() {
             ])
           }}
           type='button'
-          className='text-lg text-transparent bg-clip-text bg-gradient-to-br from-white to-zinc-300/20 rounded-full px-4 py-1 border border-white/10 backdrop-blur-lg'>模拟通知</button>
+          className='text-lg text-transparent bg-clip-text bg-gradient-to-br from-white to-zinc-300/20 rounded-full px-4 py-1 border border-white/10 backdrop-blur-lg'>
+          模拟通知
+        </motion.button>
       </div>
-    </div>
+    </div >
   )
 }
