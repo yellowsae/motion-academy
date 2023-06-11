@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from 'react'
-
+import { motion, AnimatePresence } from 'framer-motion'
 
 
 
@@ -23,22 +23,29 @@ function randomMessage() {
 
 
 export default function LessonOnePage() {
-  const [notifications, setNotifications] = React.useState<string[]>([
-    messagesDb[0],
-    messagesDb[1],
-    messagesDb[2],
+  const [notifications, setNotifications] = React.useState<[number, string][]>([
+    [0, messagesDb[0]],
+    [1, messagesDb[1]],
+    [2, messagesDb[2]],
   ])
 
   return (
     <div className='fixed inset-0'>
       <div className='absolute top-0 right-0 inset-y-0 pr-4 pt-4'>
         <ul className='grid grid-cols-1 gap-4'>
-          {notifications.map((message, idx) => (
+          {notifications.map(([idx, message]) => (
             <li
               key={idx}
               className='relative z-20 w-64 p-5 text-base bg-white/10 backdrop-brightness-90 backdrop-blur-lg border font-medium text-transparent bg-clip-text bg-gradient-to-br from-zinc-50 to-zinc-200/20 border-white/10 shadow-md rounded-xl'
             >
-              <button type='button' aria-label='关闭通知' className='absolute -left-4 -top-2 text-xs text-white/80 bg-black/10 rounded-full px-1.5 py-0.5 border border-white/10 z-50'>关闭</button>
+              <button
+                type='button'
+                aria-label='关闭通知'
+                className='absolute -left-4 -top-2 text-xs text-white/80 bg-black/10 rounded-full px-1.5 py-0.5 border border-white/10 z-50'
+                onClick={() => {
+                  setNotifications((perv) => perv.filter(([index]) => index !== idx))
+                }}
+              >关闭</button>
               <p>{message}</p>
             </li>
           ))}
@@ -46,7 +53,15 @@ export default function LessonOnePage() {
       </div>
 
       <div className='absolute inset-0 flex items-center justify-center'>
-        <button type='button' className='text-lg text-transparent bg-clip-text bg-gradient-to-br from-white to-zinc-300/20 rounded-full px-4 py-1 border border-white/10 backdrop-blur-lg'>模拟通知</button>
+        <button
+          onClick={() => {
+            setNotifications((prev) => [
+              ...prev,
+              [new Date().getTime(), randomMessage()]
+            ])
+          }}
+          type='button'
+          className='text-lg text-transparent bg-clip-text bg-gradient-to-br from-white to-zinc-300/20 rounded-full px-4 py-1 border border-white/10 backdrop-blur-lg'>模拟通知</button>
       </div>
     </div>
   )
